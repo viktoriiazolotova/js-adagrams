@@ -96,7 +96,7 @@ describe("Adagrams", () => {
     });
   });
 
-  describe("scoreWord", () => {
+  describe.skip("scoreWord", () => {
     const expectScores = (wordScores) => {
       Object.entries(wordScores).forEach(([word, score]) => {
         expect(scoreWord(word)).toBe(score);
@@ -148,7 +148,7 @@ describe("Adagrams", () => {
       throw "Complete test by adding an assertion";
     });
 
-    describe("in case of tied score", () => {
+    describe.skip("in case of tied score", () => {
       const expectTie = (words) => {
         const scores = words.map((word) => scoreWord(word));
         const highScore = scores.reduce((h, s) => (h < s ? s : h), 0);
