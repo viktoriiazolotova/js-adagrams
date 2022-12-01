@@ -96,7 +96,7 @@ describe("Adagrams", () => {
     });
   });
 
-  describe.skip("scoreWord", () => {
+  describe("scoreWord", () => {
     const expectScores = (wordScores) => {
       Object.entries(wordScores).forEach(([word, score]) => {
         expect(scoreWord(word)).toBe(score);
@@ -120,7 +120,8 @@ describe("Adagrams", () => {
     });
 
     it("returns a score of 0 if given an empty input", () => {
-      throw "Complete test";
+      //throw "Complete test";
+      expect(scoreWord("")).toEqual(0);
     });
 
     it("adds an extra 8 points if word is 7 or more characters long", () => {

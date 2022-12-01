@@ -54,6 +54,7 @@ const SCORE_POOL = {
   Y: 4,
   Z: 10,
 };
+//############ WAVE 1 ###############
 // get random letter from copyLetterPool
 const getRandomLetter = function (letterPool) {
   const keys = Object.keys(letterPool);
@@ -75,36 +76,62 @@ export const drawLetters = () => {
   }
   return arrayLetters;
 };
-// function to count item in array
-const itemCounter = (array, item) => {
-  console.log("this is inside counter item", array, item);
-  return array.filter((currentItem) => currentItem == item).length;
-};
 
+//############ WAVE 2 ###############
+
+//Solution # 1
+
+// function to count frequency item in array
+// const itemCounter = (array, item) => {
+//   return array.filter((currentItem) => currentItem == item).length;
+// };
+
+// export const usesAvailableLetters = (input, lettersInHand) => {
+//   for (let letter of input) {
+//     // letter = letter.toUpperCase();
+//     if (!lettersInHand.includes(letter)) {
+//       return false;
+//     } else {
+//       let count1 = itemCounter(input.split(""), letter);
+//       let count2 = itemCounter(lettersInHand, letter);
+//       // console.log(count1, count2);
+//       if (count1 > count2) {
+//         return false;
+//       }
+//     }
+//   }
+//   return true;
+// };
+
+// Solution # 2
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // input = split();
-  // console.log(input);
-  for (let letter of input) {
-    console.log(letter, input);
+  for (let i in input) {
+    let letter = input[i].toUpperCase();
     if (!lettersInHand.includes(letter)) {
       return false;
-      // } else if (itemCounter(input, letter) <= text.split(letter).length - 1) {
     } else {
-      let count1 = itemCounter(input.split(""), letter);
-      let count2 = itemCounter(lettersInHand, letter);
-      // console.log(count1, count2);
-      if (count1 > count2) {
-        return false;
-      }
-
-      // return false;
+      delete lettersInHand[i];
     }
   }
   return true;
 };
 
+//############ WAVE 3 ###############
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+  if (word.length === 0) {
+    return 0;
+  }
+
+  let totalScore = 0;
+  word = word.toUpperCase();
+  // console.log(word);
+  if (word.length >= 7 && word.length <= 10) {
+    totalScore += 8;
+  }
+  for (let letter of word) {
+    totalScore += SCORE_POOL[letter];
+  }
+  return totalScore;
 };
 
 export const highestScoreFrom = (words) => {
