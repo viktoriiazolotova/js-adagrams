@@ -124,7 +124,6 @@ export const scoreWord = (word) => {
 
   let totalScore = 0;
   word = word.toUpperCase();
-  // console.log(word);
   if (word.length >= 7 && word.length <= 10) {
     totalScore += 8;
   }
@@ -134,6 +133,42 @@ export const scoreWord = (word) => {
   return totalScore;
 };
 
+//############ WAVE 4 ###############
+
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  //loop thru words => create array with scores
+  //do map and add word and score to the objects?
+  let maxScore = 0;
+  let highestScoreWord = null;
+
+  const highScoreWordObj = {};
+
+  for (let word of words) {
+    console.log("this is word", word);
+    let wordScore = scoreWord(word);
+    if (wordScore > maxScore) {
+      maxScore = wordScore;
+      highestScoreWord = word;
+      highScoreWordObj.word = highestScoreWord;
+      highScoreWordObj.score = maxScore;
+    } else if (wordScore === maxScore) {
+      if (word.length === 10) {
+        highScoreWordObj.word = word;
+        highScoreWordObj.score = wordScore;
+      } else if (highestScoreWord.length === 10) {
+        highScoreWordObj.word = highestScoreWord;
+        highScoreWordObj.score = maxScore;
+        console.log("this inside of length not 10:", highScoreWordObj);
+      } else if (word.length < highestScoreWord.length) {
+        highScoreWordObj.word = word;
+        highScoreWordObj.score = wordScore;
+      } else if (word.length === highestScoreWord.length) {
+        highScoreWordObj.word = highestScoreWord;
+        highScoreWordObj.score = maxScore;
+      }
+    }
+    // console.log("word is ", word, "highest word is ", highestScoreWord);
+  }
+  console.log("this is what is returned", highScoreWordObj);
+  return highScoreWordObj;
 };
