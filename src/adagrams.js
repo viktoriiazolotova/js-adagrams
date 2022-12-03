@@ -55,16 +55,20 @@ const SCORE_POOL = {
   Z: 10,
 };
 //############ WAVE 1 ###############
-// get random letter from copyLetterPool
-const getRandomLetter = function (letterPool) {
+
+/**
+ * Function takes object.
+ * Returns random key from dictionary.
+ */
+const getRandomLetter = (letterPool) => {
   const keys = Object.keys(letterPool);
   return keys[Math.floor(Math.random() * keys.length)];
 };
 
+/**
+ *Return an array of ten strings from the LETTER_POOL.
+ */
 export const drawLetters = () => {
-  //Others ways to make copy of object
-  // const copyLetterPool = JSON.parse(JSON.stringify(LETTER_POOL));
-  // const copyLetterPool = Object.assign({}, LETTER_POOL);
   const copyLetterPool = { ...LETTER_POOL };
   const arrayLetters = [];
   while (arrayLetters.length < 10) {
@@ -80,53 +84,53 @@ export const drawLetters = () => {
 
 //############ WAVE 2 ###############
 // Solution # 1
+/**
+ * Returns true if every letter in the input word is available
+ * (in the right quantities) in the lettersInHand.
+ */
 export const usesAvailableLetters = (input, lettersInHand) => {
   for (const i in input) {
     let letter = input[i].toUpperCase();
-    if (!lettersInHand.includes(letter)) {
-      return false;
-    } else {
-      delete lettersInHand[i];
-    }
+    if (!lettersInHand.includes(letter)) return false;
+    else delete lettersInHand[i];
   }
   return true;
 };
 
 //Solution # 2
-
-// function to count frequency item in array
+/**
+ * Function takes array and item.
+ * Return frequency of element in array.
+ */
 // const itemCounter = (array, item) => {
 //   return array.filter((currentItem) => currentItem == item).length;
 // };
 
 // export const usesAvailableLetters = (input, lettersInHand) => {
 //   for (let letter of input) {
-//     // letter = letter.toUpperCase();
 //     if (!lettersInHand.includes(letter)) {
 //       return false;
 //     } else {
 //       let count1 = itemCounter(input.split(""), letter);
 //       let count2 = itemCounter(lettersInHand, letter);
-//       // console.log(count1, count2);
-//       if (count1 > count2) {
-//         return false;
-//       }
+//       if (count1 > count2) return false;
 //     }
 //   }
 //   return true;
 // };
 
 //############ WAVE 3 ###############
+
+/**
+ * Returns the score of the given word.
+ */
 export const scoreWord = (word) => {
-  if (word.length === 0) {
-    return 0;
-  }
+  if (word.length === 0) return 0;
 
   let totalScore = 0;
   word = word.toUpperCase();
-  if (word.length >= 7 && word.length <= 10) {
-    totalScore += 8;
-  }
+  if (word.length >= 7 && word.length <= 10) totalScore += 8;
+
   for (const letter of word) {
     totalScore += SCORE_POOL[letter];
   }
@@ -134,7 +138,11 @@ export const scoreWord = (word) => {
 };
 
 //############ WAVE 4 ###############
-
+/**
+ * Takes one parameter: words, which is an array of strings.
+ * Returns a single object that represents
+ * the data of a winning word and its score.
+ */
 export const highestScoreFrom = (words) => {
   //1. Create new empty array highestScoreWordList
   //2. Iterate thru array of words:
