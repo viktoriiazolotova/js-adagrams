@@ -62,6 +62,7 @@ const getRandomLetter = function (letterPool) {
 };
 
 export const drawLetters = () => {
+  //Others ways to make copy of object
   // const copyLetterPool = JSON.parse(JSON.stringify(LETTER_POOL));
   // const copyLetterPool = Object.assign({}, LETTER_POOL);
   const copyLetterPool = { ...LETTER_POOL };
@@ -78,8 +79,20 @@ export const drawLetters = () => {
 };
 
 //############ WAVE 2 ###############
+// Solution # 1
+export const usesAvailableLetters = (input, lettersInHand) => {
+  for (const i in input) {
+    let letter = input[i].toUpperCase();
+    if (!lettersInHand.includes(letter)) {
+      return false;
+    } else {
+      delete lettersInHand[i];
+    }
+  }
+  return true;
+};
 
-//Solution # 1
+//Solution # 2
 
 // function to count frequency item in array
 // const itemCounter = (array, item) => {
@@ -103,19 +116,6 @@ export const drawLetters = () => {
 //   return true;
 // };
 
-// Solution # 2
-export const usesAvailableLetters = (input, lettersInHand) => {
-  for (let i in input) {
-    let letter = input[i].toUpperCase();
-    if (!lettersInHand.includes(letter)) {
-      return false;
-    } else {
-      delete lettersInHand[i];
-    }
-  }
-  return true;
-};
-
 //############ WAVE 3 ###############
 export const scoreWord = (word) => {
   if (word.length === 0) {
@@ -127,7 +127,7 @@ export const scoreWord = (word) => {
   if (word.length >= 7 && word.length <= 10) {
     totalScore += 8;
   }
-  for (let letter of word) {
+  for (const letter of word) {
     totalScore += SCORE_POOL[letter];
   }
   return totalScore;
@@ -136,35 +136,46 @@ export const scoreWord = (word) => {
 //############ WAVE 4 ###############
 
 export const highestScoreFrom = (words) => {
+  //1. Create new empty array highestScoreWordList
+  //2. Iterate thru array of words:
+  //3. if score of current word > maxScore, then assign the current word
+  // (word with maxScore) to the array as first element
+  // and reassign wordScore to the maxScore
+  //4. else if scores are eaqual, add current word to the array.
   let maxScore = 0;
-  let highestScoreWord = null;
+  let highestScoreWordList = [];
 
-  const highScoreWordObj = {};
-
-  for (let word of words) {
-    // console.log("this is word", word);
+  for (const word of words) {
     let wordScore = scoreWord(word);
     if (wordScore > maxScore) {
+      highestScoreWordList = [word];
       maxScore = wordScore;
-      highestScoreWord = word;
-      highScoreWordObj.word = highestScoreWord;
-      highScoreWordObj.score = maxScore;
     } else if (wordScore === maxScore) {
-      if (word.length === 10 && word.length !== highestScoreWord.length) {
-        highScoreWordObj.word = word;
-        highScoreWordObj.score = wordScore;
-      } else if (highestScoreWord.length === 10) {
-        highScoreWordObj.word = highestScoreWord;
-        highScoreWordObj.score = maxScore;
-      } else if (word.length < highestScoreWord.length) {
-        highScoreWordObj.word = word;
-        highScoreWordObj.score = wordScore;
-      } else if (word.length === highestScoreWord.length) {
-        highScoreWordObj.word = highestScoreWord;
-        highScoreWordObj.score = maxScore;
-      }
+      highestScoreWordList.push(word);
     }
   }
-  // console.log("this is what is returned:", highScoreWordObj);
-  return highScoreWordObj;
+  //In case of ties:
+  //1.Iterate thru array of highestScoreWordList:
+  //2. if word.length === 10, word => winnerWord, break out of loop,
+  //  since we found word with 10 letters and it is first word that
+  //  needs to be returned if other words in array also have length === 10
+  //3. else if score of current word < length of the shortest word,
+  // then word with fewer letters => winnerWord
+  //4. otherwise if lengths of the words are equal:
+  // winnerWord = highestScoreWordList[0]
+
+  let shortLength = highestScoreWordList[0].length;
+  let winnerWord = highestScoreWordList[0];
+
+  for (const word of highestScoreWordList) {
+    if (word.length === 10) {
+      winnerWord = word;
+      break;
+    } else if (word.length < shortLength) {
+      winnerWord = word;
+      shortLength = word.length;
+    }
+  }
+
+  return { word: winnerWord, score: maxScore };
 };
