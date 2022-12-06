@@ -144,12 +144,6 @@ export const scoreWord = (word) => {
  * the data of a winning word and its score.
  */
 export const highestScoreFrom = (words) => {
-  //1. Create new empty array highestScoreWordList
-  //2. Iterate thru array of words:
-  //3. if score of current word > maxScore, then assign the current word
-  // (word with maxScore) to the array as first element
-  // and reassign wordScore to the maxScore
-  //4. else if scores are eaqual, add current word to the array.
   let maxScore = 0;
   let highestScoreWordList = [];
 
@@ -162,15 +156,6 @@ export const highestScoreFrom = (words) => {
       highestScoreWordList.push(word);
     }
   }
-  //In case of ties:
-  //1.Iterate thru array of highestScoreWordList:
-  //2. if word.length === 10, word => winnerWord, break out of loop,
-  //  since we found word with 10 letters and it is first word that
-  //  needs to be returned if other words in array also have length === 10
-  //3. else if score of current word < length of the shortest word,
-  // then word with fewer letters => winnerWord
-  //4. otherwise if lengths of the words are equal:
-  // winnerWord = highestScoreWordList[0]
 
   let shortLength = highestScoreWordList[0].length;
   let winnerWord = highestScoreWordList[0];
@@ -187,3 +172,21 @@ export const highestScoreFrom = (words) => {
 
   return { word: winnerWord, score: maxScore };
 };
+// Pseudocode for WAVE 4
+
+//1. Create new empty array highestScoreWordList
+//2. Iterate thru array of words:
+//3. if score of current word > maxScore, then assign the current word
+// (word with maxScore) to the array as first element
+// and reassign wordScore to the maxScore
+//4. else if scores are eaqual, add current word to the array.
+
+//In case of ties:
+//1.Iterate thru array of highestScoreWordList:
+//2. if word.length === 10, word => winnerWord, break out of loop,
+//  since we found word with 10 letters and it is first word that
+//  needs to be returned if other words in array also have length === 10
+//3. else if score of current word < length of the shortest word,
+// then word with fewer letters => winnerWord
+//4. otherwise if lengths of the words are equal:
+// winnerWord = highestScoreWordList[0]
